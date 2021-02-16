@@ -1,0 +1,11 @@
+<!--index.wxml-->
+<view class="container">
+  <view class="logo-view">
+    <image class="logo-image" src="/images/logo.png" mode="cover"></image>
+    <text class="logo-text">烂柯游艺社-狼人杀小助手</text>
+  </view>
+  <view class="game-action">
+    <button bindtap="bindCreateGame"> 创建游戏 </button>
+    <button bindtap="bindEnterGame"> 加入游戏 </button>
+  </view>
+</view>

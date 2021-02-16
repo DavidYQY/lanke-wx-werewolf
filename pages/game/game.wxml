@@ -1,0 +1,25 @@
+<!--game.wxml-->
+<view class="container">
+  <view class="header-view">
+    <view class="room-id-view">
+      <text class="room-id-text">房间号：{{room_id}}</text>
+    </view>
+    <view class="role-view">
+      <text class="role-text" wx:if="{{is_host}}">你的身份为：上帝</text>
+    </view>
+  </view>
+  <view class="game-view">
+    <view class="container seat-list">
+      <block wx:for="{{seats}}" wx:key="*this" wx:for-item="seat">
+        <view class="seat-view">
+          <image src="/images/empty_seat.png" class="seat-image" />
+          <text class="seat-item">{{index + 1}}</text>
+        </view>
+      </block>
+    </view>
+  </view>
+  <view class="dev-note-view">
+
+  </view>
+
+</view>

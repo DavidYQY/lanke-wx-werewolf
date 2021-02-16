@@ -1,0 +1,16 @@
+<!--create_game.wxml-->
+<view class="container">
+  <view class="god-view">
+    <image class="god-image" src="/images/god.png" mode="cover"></image>
+  </view>
+  <view class="dev-note-view">
+    <text class="dev-note-text">
+      当前本程序仅支持12人局投票功能
+      其余功能陆续加入中
+    </text>
+  </view>
+  <view class="game-config-view">
+    <text class="game-info-text">游戏人数: 12人</text>
+    <button bindtap="bindGame">完成设置</button>
+  </view>
+</view>

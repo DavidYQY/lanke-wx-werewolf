@@ -1,0 +1,19 @@
+<!--create_game.wxml-->
+<view class="container">
+  <view class="god-view">
+    <image class="logo-image" src="/images/logo.png" mode="cover"></image>
+  </view>
+  <view class="dev-note-view">
+    <text class="dev-note-text">
+      当前本程序仅支持12人局投票功能
+      其余功能陆续加入中
+    </text>
+  </view>
+  <view>
+    <text>请输入房间号码</text>
+  </view>
+  <view class="enter-game-view">
+    <input class="room-number-input" bindinput="roomNumberInput" maxlength="4" type="number" focus/>
+    <button bindtap="enterGame">确认</button>
+  </view>
+</view>

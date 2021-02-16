@@ -1,0 +1,27 @@
+/**enter_game.wxss**/
+view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.logo-image {
+  width: 211rpx;
+  height: 238rpx;
+  margin: 20rpx;
+}
+
+.dev-note-text {
+  font-size: smaller;
+  text-align: center;
+}
+
+.room-number-input {
+  font-size: 50rpx;
+  width: 320rpx; 
+  height: 80rpx;
+  box-shadow: 0 0 3rpx #000;
+  text-align: center;
+  margin-bottom: 20rpx;
+}
