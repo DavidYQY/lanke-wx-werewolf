@@ -23,7 +23,7 @@
     "compileHotReLoad": false,
     "useMultiFrameRuntime": true,
     "useApiHook": true,
-    "useApiHostProcess": true,
+    "useApiHostProcess": false,
     "babelSetting": {
       "ignore": [],
       "disablePlugins": [],
@@ -41,7 +41,7 @@
   },
   "compileType": "miniprogram",
   "libVersion": "2.15.0",
-  "appid": "wxa1fe9fd5cc7c6230",
+  "appid": "wxac752aa61b5b35bf",
   "projectname": "lanke-wx-werewolf",
   "debugOptions": {
     "hidedInDevtools": []

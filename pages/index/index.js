@@ -38,6 +38,14 @@ Page({
       })
     }
   },
+  getUserInfo(e) {
+    console.log(e)
+    app.globalData.userInfo = e.detail.userInfo
+    this.setData({
+      userInfo: e.detail.userInfo,
+      hasUserInfo: true
+    })
+  },
   bindCreateGame() {
     wx.navigateTo({
       url: '../create_game/create_game'

@@ -4,6 +4,15 @@
     <image class="logo-image" src="/images/logo.png" mode="cover"></image>
     <text class="logo-text">烂柯游艺社-狼人杀小助手</text>
   </view>
+  
+  <view class="userinfo">
+    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
+    <block wx:else>
+      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+    </block>
+  </view>
+
   <view class="game-action">
     <button bindtap="bindCreateGame"> 创建游戏 </button>
     <button bindtap="bindEnterGame"> 加入游戏 </button>

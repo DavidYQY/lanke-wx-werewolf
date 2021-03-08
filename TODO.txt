@@ -1,0 +1,23 @@
+数据库字段：
+
+Collections werewolf-dev：
+id: room_id， string, 四位数
+god: string, 上帝的微信名
+board: string, 板子
+player: array of strings, 12个微信名
+identities: array of strings, 12个身份
+name_to_position: object, map name to position
+votes: array of objects:
+	{
+		period: string, "警上竞选",
+		尹秋阳: 7
+		...
+	}
+
+任务：
+1. 分发身份
+	sub1：上帝输入板子
+	sub2：用户入座
+	
+2. 发起投票
+3. 查看票型

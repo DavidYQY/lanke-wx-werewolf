@@ -3,7 +3,8 @@
     "pages/index/index",
     "pages/create_game/create_game",
     "pages/enter_game/enter_game",
-    "pages/game/game"
+    "pages/game/game",
+    "pages/god_game/god_game"
   ],
   "window":{
     "backgroundTextStyle":"light",
