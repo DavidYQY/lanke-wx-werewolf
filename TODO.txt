@@ -13,6 +13,20 @@ votes: array of objects:
 		尹秋阳: 7
 		...
 	}
+	
+Collections 1000:
+_id: basic_info
+god: string, 上帝的微信名
+board: string, 板子
+
+_id: 微信名 (x12)
+_openid: openID, 用来发消息
+seat_num: string, 座位号
+identity: string, 身份
+
+_id: Votes_1
+period: string, "警上竞选"
+votes: objects: {1:7, 2:null, etc}
 
 任务：
 1. 分发身份

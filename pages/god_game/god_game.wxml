@@ -25,7 +25,8 @@
     <!--
     <button bindtap = "setGameType" type="primary" plain="true">设置板子</button>
     -->
-    <button bindtap = "distributeRoles" type="primary" plain="true">分发身份</button>
+    <button bindtap = "distributeRoles" type="primary" plain="true" disabled="{{is_lock}}">分发身份</button>
+    <button bindtap = "lockRoles" type="primary" plain="true" disabled="{{is_lock}}">锁定身份</button>
   </view>
   <view class="dev-note-view">
 

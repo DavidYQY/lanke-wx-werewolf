@@ -7,8 +7,10 @@ Page({
     room_id: null,
     board_type: null,
     is_host: false,
+    is_lock: false,
     seats: [],
     board_all: ['预女猎白', '预女猎白混', '你好华老板', '你好胡老师'],
+    wechat_names: ['尹秋阳','胡雨章','chen','xiaohe','华老板','周广宇','test'],
     role_details: [
       {
         "村民": 4, 
@@ -64,7 +66,30 @@ Page({
       index: e.detail.value
     })
   },
-  distributeRoles() {
+
+  add_role_info(roomNum, wechat_name, role){
+    const db = wx.cloud.database();
+    const werewolf_db = db.collection(roomNum.toString());
+    return werewolf_db.doc(wechat_name.toString()).update({
+      data: {
+        indentity: role.toString()
+      }})
+  },
+
+  add_role_info_cloud(roomNum, name, seat_num, identity){
+    return wx.cloud.callFunction({
+      name: 'add_player_info',
+      data: {
+        roomNum: roomNum.toString(),
+        name: name.toString(),
+        seat_num: seat_num.toString(),
+        identity: identity.toString()
+      },
+    })
+  },
+  
+
+  async distributeRoles() {
     var roles = this.data.role_details[this.data.index]
     var arr = []
     for (var key of Object.keys(roles)){
@@ -78,6 +103,15 @@ Page({
     this.setData({
       seat_pic_urls: this.data.seat_pic_urls
     })
+    var funcs = []
+    for (var i = 0; i < 6; i++){
+      funcs.push(this.add_role_info_cloud(this.data.room_id, 
+        this.data.wechat_names[i], i + 1, arr[i].toString()))
+    }
+    for (var i = 0; i < 6; i++){
+      console.log(await funcs[i])
+    }
+    
   },
 
   fillArray: function (value, len) {

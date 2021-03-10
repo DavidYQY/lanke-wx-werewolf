@@ -3,15 +3,16 @@
   flex-direction: column;
   align-items: center;
 }
+
 .boardtype-select{
   background-color: #FFFFFF;
 }
+
 .button-sp-area{
   margin: 0 auto;
   width: 0%;
   align-items: right
 }
-
 
 .seat-list {
   display: flex;
