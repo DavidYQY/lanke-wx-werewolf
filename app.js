@@ -6,7 +6,7 @@ App({
     wx.cloud.init({
       env: wx.cloud.DYNAMIC_CURRENT_ENV
     });
-    const db = wx.cloud.database();
+    //const db = wx.cloud.database();
   },
   // 登录
   login: function() {

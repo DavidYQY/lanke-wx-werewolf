@@ -7,16 +7,19 @@
     <view class="role-view">
       <text class="role-text">你的身份为：上帝</text>
     </view>
-    <picker bindchange="bindPickerChange" value="{{index}}" range="{{board_all}}">
+    <picker bindchange="bindPickerChange" value="{{index}}" disabled="{{is_lock}}" range="{{board_all}}">
     <text class="boardtype-select">当前板子为：{{board_all[index]}}</text>
+    </picker>
+    <picker bindchange="bindPickerChange2" value="{{period_index}}" range="{{period_all}}">
+    <text class="boardtype-select">当前阶段为：{{period_all[period_index]}}</text>
     </picker>
   </view>
   <view class="game-view">
     <view class="container seat-list">
       <block wx:for="{{seats}}" wx:key="*this" wx:for-item="seat">
         <view class="seat-view">
-          <image src="{{seat_pic_urls[index]}}" class="seat-image" />
-          <text class="seat-item">{{index + 1}}</text>
+          <image src="{{seat_pic_urls[index]}}" class="seat-image" data-idx="{{index}}"/>
+          <text class="seat-item">{{(index + 1) + ": " + seat_names[index]}}</text>
         </view>
       </block>
     </view>
@@ -27,6 +30,8 @@
     -->
     <button bindtap = "distributeRoles" type="primary" plain="true" disabled="{{is_lock}}">分发身份</button>
     <button bindtap = "lockRoles" type="primary" plain="true" disabled="{{is_lock}}">锁定身份</button>
+    <button bindtap = "check_votes" type="primary" plain="true" > 查看票型 </button>
+    <button bindtap = "refresh_all" type="primary" plain="true" > 刷新 </button>
   </view>
   <view class="dev-note-view">
 

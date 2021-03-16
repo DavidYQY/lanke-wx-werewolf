@@ -20,13 +20,18 @@ god: string, 上帝的微信名
 board: string, 板子
 
 _id: 微信名 (x12)
-_openid: openID, 用来发消息
+image: 微信头像url
 seat_num: string, 座位号
 identity: string, 身份
 
 _id: Votes_1
 period: string, "警上竞选"
-votes: objects: {1:7, 2:null, etc}
+from: from seat_num
+to: to seat_num
+
+_id: current_info
+current_period: 当前阶段
+locked: 身份是否锁定
 
 任务：
 1. 分发身份

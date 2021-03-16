@@ -5,19 +5,34 @@
       <text class="room-id-text">房间号：{{room_id}}</text>
     </view>
     <view class="role-view">
-      <text class="role-text" wx:if="{{is_host}}">你的身份为：上帝</text>
+      <text class="role-text">当前游戏上帝为：{{god}}</text>
+    </view>
+    <view class="board-view">
+      <text class="board-text">当前板子为：{{board}}</text>
+    </view>
+    <view class="role-view">
+      <text class="role-text">你的身份为：{{identity}}</text>
     </view>
   </view>
+
   <view class="game-view">
     <view class="container seat-list">
       <block wx:for="{{seats}}" wx:key="*this" wx:for-item="seat">
         <view class="seat-view">
-          <image src="/images/empty_seat.png" class="seat-image" />
-          <text class="seat-item">{{index + 1}}</text>
+          <image src="{{seat_pic_urls[index]}}" class="seat-image" bindtap = 'sit_down' data-idx="{{index}}"/>
+          <text class="seat-item">{{(index + 1) + ": " + seat_names[index]}}</text>
         </view>
       </block>
     </view>
   </view>
+
+  <view class="button-sp-area">
+    <!--
+    <button bindtap = "setGameType" type="primary" plain="true">设置板子</button>
+    -->
+    <button bindtap = "refresh_all" type="primary" plain="true" > 刷新 </button>
+  </view>
+
   <view class="dev-note-view">
 
   </view>

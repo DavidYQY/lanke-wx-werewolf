@@ -6,14 +6,13 @@ const _ = db.command
 
 exports.main = async (event, context) => {
   try {
-    return db.collection(event.roomNum).doc(event.name).set({
+    return db.collection(event.roomNum).doc('current_info').set({
       data: {
-        image: event.image,
-        seat_num: event.seat_num,
-        identity: event.identity
+        current_period: event.current_period,
+        locked: event.locked
       }
     })
   } catch(e) {
     console.log(e)
-    }
+  }
 }

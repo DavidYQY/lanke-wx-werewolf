@@ -47,6 +47,7 @@ Page({
         god: app.globalData.userInfo.nickName.toString(),
         board: null
       },
+  
     })
   },
  

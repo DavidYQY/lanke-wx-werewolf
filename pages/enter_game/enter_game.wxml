@@ -13,7 +13,7 @@
     <text>请输入房间号码</text>
   </view>
   <view class="enter-game-view">
-    <input class="room-number-input" bindinput="roomNumberInput" maxlength="4" type="number" focus/>
+    <input class="room-number-input" value="1000" bindinput="roomNumberInput" maxlength="4" type="number" focus/>
     <button bindtap="enterGame">确认</button>
   </view>
 </view>
