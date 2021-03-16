@@ -39,6 +39,8 @@ App({
     userInfo: null,
     token: null,
     room_id: null,
-    is_host: null
+    is_host: null,
+    is_locked: false, // whether is locked,
+    is_back: false // whether the god is back
   }
 })

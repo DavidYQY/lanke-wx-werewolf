@@ -24,7 +24,7 @@ image: 微信头像url
 seat_num: string, 座位号
 identity: string, 身份
 
-_id: Votes_1
+_id: period + from
 period: string, "警上竞选"
 from: from seat_num
 to: to seat_num
@@ -40,3 +40,8 @@ locked: 身份是否锁定
 	
 2. 发起投票
 3. 查看票型
+
+1. 三个字
+2. 锁定身份后更新锁定状态
+3. 刷新后看到票型(直接投票给当前阶段？)
+4. 身份不够明显

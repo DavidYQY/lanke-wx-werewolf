@@ -22,3 +22,44 @@
   width: 128rpx;
   height: 128rpx;
 }
+
+.form-area {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.form-left{
+}
+
+.form-right{
+}
+
+.form-body{
+  padding-top: 40rpx;
+}
+
+.button-sp-area{
+  display: flex;
+  flex-direction: row;
+  width: 90%;
+}
+
+.left {
+  width: 70%;
+  flex-direction: column;
+  display: flex;
+  margin:2px;
+}
+
+.right {
+  width: 30%;
+  flex-direction: column;
+  display: flex;
+  margin:2px;
+}
+
+.poll-res{
+  height: 100%;
+  border: 1px solid #000000;
+}

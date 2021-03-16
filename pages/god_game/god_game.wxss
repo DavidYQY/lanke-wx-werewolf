@@ -9,9 +9,28 @@
 }
 
 .button-sp-area{
-  margin: 0 auto;
-  width: 0%;
-  align-items: right
+  display: flex;
+  flex-direction: row;
+  width: 90%;
+}
+
+.left {
+  width: 70%;
+  flex-direction: column;
+  display: flex;
+  margin:2px;
+}
+
+.right {
+  width: 30%;
+  flex-direction: column;
+  display: flex;
+  margin:2px;
+}
+
+.poll-res{
+  height: 100%;
+  border: 1px solid #000000;
 }
 
 .seat-list {
