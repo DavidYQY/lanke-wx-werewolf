@@ -345,10 +345,12 @@ Page({
   },
 
   lockRoles(){
+    this.data.is_locked = true
     this.setData({
       is_locked: true
     }
     )
+    this.update_current_info()
   },
 
   check_votes(){

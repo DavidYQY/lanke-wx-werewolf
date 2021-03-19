@@ -63,3 +63,12 @@
   height: 100%;
   border: 1px solid #000000;
 }
+
+.seat-item{
+  font-size: 20rpx;
+  width: 128rpx
+}
+
+.role-text{
+  border: 2px solid #000000
+}

@@ -51,3 +51,8 @@
   width: 128rpx;
   height: 128rpx;
 }
+
+.seat-item{
+  font-size: 20rpx;
+  width: 128rpx
+}

@@ -146,30 +146,43 @@ Page({
 
   update_votes(){
     let self = this
-    var current_period = this.data.period
     wx.cloud.callFunction({
-      name: 'get_votes',
+      name: 'get_current_info',
       data: {
-        roomNum: this.data.room_id,
-        period: current_period
+        roomNum: this.data.room_id
       },
       complete: res => {
-        let arr = res.result.data
-        var votes_count = {}
-        for (var i = 0; i < arr.length; i++) {
-          var from = arr[i]['from']
-          var to = arr[i]['to']
-          if(!(to in votes_count)){
-            votes_count[to] = [from]
-          }else{
-            votes_count[to].push(from)
-          }
-        }
-        var sorted_votes = self.sort_poll(votes_count)
-        var poll_results = self.poll_to_text(sorted_votes)
-        poll_results = "当前阶段：" + current_period + "\n" + poll_results
+        console.log(res)
         self.setData({
-          poll_result: poll_results
+          period: res.result.data.current_period
+        })
+        this.data.period = res.result.data.current_period
+        var current_period = this.data.period
+        wx.cloud.callFunction({
+          name: 'get_votes',
+          data: {
+            roomNum: this.data.room_id,
+            period: current_period
+          },
+          complete: res => {
+            let arr = res.result.data
+            var votes_count = {}
+            for (var i = 0; i < arr.length; i++) {
+              var from = arr[i]['from']
+              var to = arr[i]['to']
+              if(!(to in votes_count)){
+                votes_count[to] = [from]
+              }else{
+                votes_count[to].push(from)
+              }
+            }
+            var sorted_votes = self.sort_poll(votes_count)
+            var poll_results = self.poll_to_text(sorted_votes)
+            poll_results = "当前阶段：" + current_period + "\n" + poll_results
+            self.setData({
+              poll_result: poll_results
+            })
+          },
         })
       },
     })
@@ -281,29 +294,44 @@ Page({
       })
       return
     }
-    wx.showModal({
-      title: "提示",
-      content: "将要在" + self.data.period + "阶段投票给" + value + "，是否继续？",
-      success (res){
-        if (res.confirm){
-          wx.cloud.callFunction({
-            name: 'add_votes',
-            data: {
-              roomNum: self.data.room_id,
-              period: self.data.period,
-              from: self.data.seat_num,
-              to: value
-            },
-            complete: res => {
-              wx.showToast({
-                title: '投票成功！',
+    wx.cloud.callFunction({
+      name: 'get_current_info',
+      data: {
+        roomNum: this.data.room_id
+      },
+      complete: res => {
+        console.log(res)
+        self.setData({
+          period: res.result.data.current_period
+        })
+        this.data.period = res.result.data.current_period
+        var current_period = this.data.period
+        wx.showModal({
+          title: "提示",
+          content: "将要在" + current_period + "阶段投票给" + value + "，是否继续？",
+          success (res){
+            if (res.confirm){
+              wx.cloud.callFunction({
+                name: 'add_votes',
+                data: {
+                  roomNum: self.data.room_id,
+                  period: current_period,
+                  from: self.data.seat_num,
+                  to: value
+                },
+                complete: res => {
+                  wx.showToast({
+                    title: '投票成功！',
+                  })
+                }
               })
+            }else if (res.cancel){
+
             }
-          })
-        }else if (res.cancel){
-          
-        }
+          }
+        })
       }
     })
+ 
   }
 })

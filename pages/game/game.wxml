@@ -5,7 +5,7 @@
       <text class="room-id-text">房间号：{{room_id}}</text>
     </view>
     <view class="role-view">
-      <text class="role-text">当前游戏上帝为：{{god}}</text>
+      <text class="god-text">当前游戏上帝为：{{god}}</text>
     </view>
     <view class="board-view">
       <text class="board-text">当前板子为：{{board}}</text>
@@ -14,7 +14,7 @@
       <text class="role-text">你的身份为：{{identity}}</text>
     </view>
     <view class="role-view">
-      <text class="role-text">当前阶段为：{{period}}</text>
+      <text class="period-text">当前阶段为：{{period}}</text>
     </view>
   </view>
 
