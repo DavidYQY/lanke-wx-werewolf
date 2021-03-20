@@ -11,7 +11,7 @@ Page({
     seats: [],
     seat_names: [],
     seat_pic_urls: [],
-    board_all: ['预女猎白', '预女猎白混', '你好华老板', '你好胡老师'],
+    board_all: ['预女猎白', '预女猎白混', '幽灵vs预女猎守', '先女猎白混'],
     role_details: [
       {
         "村民": 4, 
@@ -29,7 +29,25 @@ Page({
         "猎人": 1, 
         "白痴": 1,
         "混血儿": 1
-      }
+      },
+      {
+        "村民": 4, 
+        "狼人": 3, 
+        "预言家": 1, 
+        "女巫": 1, 
+        "猎人": 1, 
+        "守卫": 1,
+        "鬼狼": 1
+      },
+      {
+        "村民": 3, 
+        "狼人": 4, 
+        "预言家": 1, 
+        "女巫": 1, 
+        "猎人": 1, 
+        "白痴": 1,
+        "混血儿": 1
+      },
     ],
     seat_pic_urls: [],
     index: 0,
@@ -37,7 +55,8 @@ Page({
     period_all: ['比赛前','警长竞选','第一天白天', '第二天白天', '第三天白天', '第四天白天', '第五天白天'],
     poll_index: 0,
     poll_all: ['比赛前','警长竞选','第一天白天', '第二天白天', '第三天白天', '第四天白天', '第五天白天'],
-    poll_result: "烂柯游艺社\n北美最专业的狼人杀社团\n本社于2019年3月创立于哈佛大学，最初在波士顿地区举行线下活动。 烂柯的名字出自南朝梁任昉《述异记》：晋代王质观战棋弈，流连忘返，以至于斧子柄都烂掉了。 我们取名于此，希望本社的活动也能让大家沉浸推理与表演之中，忘万千于一瞬。\n"
+    poll_result: "烂柯游艺社\n北美最专业的狼人杀社团\n本社于2019年3月创立于哈佛大学，最初在波士顿地区举行线下活动。 烂柯的名字出自南朝梁任昉《述异记》：晋代王质观战棋弈，流连忘返，以至于斧子柄都烂掉了。 我们取名于此，希望本社的活动也能让大家沉浸推理与表演之中，忘万千于一瞬。\n",
+    switch1Checked: true,
   },
   get_board_type (room_id){
     const db = wx.cloud.database();
@@ -56,7 +75,7 @@ Page({
     })
   },
   onLoad() {
-    console.log(app.globalData.is_back)
+    console.log("back: " + app.globalData.is_back)
     this.setData({
       seats: (Array.from(Array(12).keys()).map(i => {return i+1})),
       seat_pic_urls: this.fillArray("/images/empty_seat.png", 12),
@@ -167,7 +186,8 @@ Page({
       complete: res => {
         if(res.result.data.current_period){
           self.setData({
-            period_index: this.data.period_all.indexOf(res.result.data.current_period)
+            period_index: this.data.period_all.indexOf(res.result.data.current_period),
+            switch1Checked: res.result.data.vote_enabled
           })
         }
       },
@@ -180,7 +200,8 @@ Page({
       data: {
         roomNum: this.data.room_id.toString(),
         current_period: this.data.period_all[this.data.period_index],
-        locked: this.data.is_locked.toString()
+        locked: this.data.is_locked.toString(),
+        vote_enabled: this.data.switch1Checked
       },
       complete: res => {
         console.log("upload current_info complete!")
@@ -204,8 +225,11 @@ Page({
           var url = arr[i]['image']
           var name = arr[i]['_id']
           var role = arr[i]['identity']
+          var image = arr[i]['image']
           if (role){
-            this.data.seat_pic_urls[seat_num - 1] = "/images/character_logo/" + role + ".png"
+            this.data.seat_pic_urls[seat_num - 1] = "https://www.lanke.fun/static/character_logo/" + role + ".png"
+          }else if (image){
+            this.data.seat_pic_urls[seat_num - 1] = image
           }
           self.data.seat_names[seat_num - 1] = name
         }
@@ -250,6 +274,11 @@ Page({
 
   refresh_all (){
     this.update_player_infos()
+    wx.showToast({
+      title: '刷新成功！',
+      icon: 'success',
+      duration: 1000
+    })
   },
 
   
@@ -263,7 +292,7 @@ Page({
     this.shuffleArray(arr)
     for (var i = 0; i < arr.length; i++) {
       var role = arr[i]
-      this.data.seat_pic_urls[i] = "/images/character_logo/" + role + ".png"
+      this.data.seat_pic_urls[i] = "https://www.lanke.fun/static/character_logo/" + role + ".png"
     }
     this.setData({
       seat_pic_urls: this.data.seat_pic_urls
@@ -355,5 +384,27 @@ Page({
 
   check_votes(){
     this.update_votes()
+  },
+
+  switch1Change(e){
+    this.setData({
+      switch1Checked: e.detail.value
+    })
+    this.update_current_info()
+
+    if (e.detail.value){
+      wx.showToast({
+        title: '投票开启成功',
+        icon: 'success',
+        duration: 1000
+      })
+    }else{
+      wx.showToast({
+        title: '投票关闭成功',
+        icon: 'success',
+        duration: 1000
+      })
+    }
   }
 })
+

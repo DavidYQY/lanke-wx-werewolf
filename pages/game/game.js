@@ -15,7 +15,8 @@ Page({
     seated: false,
     seat_num: null,
     period: null,
-    poll_result: "烂柯游艺社\n北美最专业的狼人杀社团\n本社于2019年3月创立于哈佛大学，最初在波士顿地区举行线下活动。 烂柯的名字出自南朝梁任昉《述异记》：晋代王质观战棋弈，流连忘返，以至于斧子柄都烂掉了。 我们取名于此，希望本社的活动也能让大家沉浸推理与表演之中，忘万千于一瞬。\n"
+    poll_result: "烂柯游艺社\n北美最专业的狼人杀社团\n本社于2019年3月创立于哈佛大学，最初在波士顿地区举行线下活动。 烂柯的名字出自南朝梁任昉《述异记》：晋代王质观战棋弈，流连忘返，以至于斧子柄都烂掉了。 我们取名于此，希望本社的活动也能让大家沉浸推理与表演之中，忘万千于一瞬。\n",
+    is_locked: false
   },
 
   update_basic_info(){
@@ -43,7 +44,8 @@ Page({
       },
       complete: res => {
         self.setData({
-          period: res.result.data.current_period
+          period: res.result.data.current_period,
+          is_locked: res.result.data.locked == "true"
         })
       },
     })
@@ -59,8 +61,16 @@ Page({
       },
       complete: res => {
         try{
+          if (res.result.data.identity){
+            self.setData({
+              identity: res.result.data.identity
+            })
+          }else{
+            self.setData({
+              identity: "未分发"
+            })
+          }
           self.setData({
-            identity: res.result.data.identity,
             seat_num: res.result.data.seat_num
           })
           if (this.data.seat_num != null){
@@ -138,6 +148,11 @@ Page({
   },
 
   refresh_all (){
+    wx.showToast({
+      title: '刷新成功！',
+      icon: 'success',
+      duration: 1000
+    })
     this.update_basic_info()
     this.update_identity_info()
     this.update_player_infos()
@@ -220,6 +235,11 @@ Page({
   },
 
   check_votes(){
+    wx.showToast({
+      title: '查看票型成功！',
+      icon: 'success',
+      duration: 1000
+    })
     this.update_votes()
   },
 
@@ -284,8 +304,17 @@ Page({
   },
 
   formSubmit(e){
-    console.log('form发生了submit事件，携带数据为：', e.detail.value)
+    //console.log('form发生了submit事件，携带数据为：', e.detail.value)
     var value = e.detail.value["input"]
+    var int_value = parseInt(value)
+    if (int_value >12 | int_value < 1 | !int_value){
+      wx.showToast({
+        title: '只允许输入1-12！',
+        icon: "warn",
+        duration: 1000
+      })
+      return
+    }
     let self = this
     if (this.data.seat_num == null){
       wx.showToast({
@@ -306,32 +335,40 @@ Page({
         })
         this.data.period = res.result.data.current_period
         var current_period = this.data.period
-        wx.showModal({
-          title: "提示",
-          content: "将要在" + current_period + "阶段投票给" + value + "，是否继续？",
-          success (res){
-            if (res.confirm){
-              wx.cloud.callFunction({
-                name: 'add_votes',
-                data: {
-                  roomNum: self.data.room_id,
-                  period: current_period,
-                  from: self.data.seat_num,
-                  to: value
-                },
-                complete: res => {
-                  wx.showToast({
-                    title: '投票成功！',
-                  })
-                }
-              })
-            }else if (res.cancel){
-
+        var enabled = res.result.data.vote_enabled
+        if (enabled){
+          wx.showModal({
+            title: "提示",
+            content: "将要在" + current_period + "阶段投票给" + value + "，是否继续？",
+            success (res){
+              if (res.confirm){
+                wx.cloud.callFunction({
+                  name: 'add_votes',
+                  data: {
+                    roomNum: self.data.room_id,
+                    period: current_period,
+                    from: self.data.seat_num,
+                    to: value
+                  },
+                  complete: res => {
+                    wx.showToast({
+                      title: '投票成功！',
+                    })
+                  }
+                })
+              }else if (res.cancel){
+              }
             }
-          }
-        })
+          })
+        }else{
+          wx.showToast({
+            title: '投票关闭了！',
+            icon: "warn",
+            duration: 1000
+          })
+        }
       }
     })
- 
-  }
+  },
+
 })

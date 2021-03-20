@@ -65,6 +65,8 @@ Page({
           console.log(clear)
           const add = await self.add_basic_info_cloud(roomNum);
           console.log(add)
+          app.globalData.is_back = false
+          app.globalData.is_locked = false
 
           wx.showToast({
             title: '创建房间成功',

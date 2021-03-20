@@ -9,7 +9,8 @@ exports.main = async (event, context) => {
     return db.collection(event.roomNum).doc('current_info').set({
       data: {
         current_period: event.current_period,
-        locked: event.locked
+        locked: event.locked,
+        vote_enabled: event.vote_enabled
       }
     })
   } catch(e) {

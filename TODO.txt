@@ -31,7 +31,8 @@ to: to seat_num
 
 _id: current_info
 current_period: 当前阶段
-locked: 身份是否锁定
+locked: 身份是否锁定，
+vote_enabled: 是否允许投票
 
 任务：
 1. 分发身份

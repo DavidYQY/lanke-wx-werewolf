@@ -8,10 +8,10 @@
       <text class="role-text">你的身份为：上帝</text>
     </view>
     <picker bindchange="bindPickerChange" value="{{index}}" disabled="{{is_locked}}" range="{{board_all}}">
-    <text class="boardtype-select">当前板子为：{{board_all[index]}}</text>
+    <text class="boardtype-select">当前板子为：{{board_all[index]}}（可选）</text>
     </picker>
     <picker bindchange="bindPickerChange2" value="{{period_index}}" range="{{period_all}}">
-    <text class="boardtype-select">当前阶段为：{{period_all[period_index]}}</text>
+    <text class="boardtype-select">当前阶段为：{{period_all[period_index]}}（可选）</text>
     </picker>
   </view>
 
@@ -38,8 +38,10 @@
     <view class="right">
     <button bindtap = "distributeRoles" type="primary" plain="true" disabled="{{is_locked}}" size='mini'>分发身份</button>
     <button bindtap = "lockRoles" type="primary" plain="true" disabled="{{is_locked}}" size='mini'>锁定身份</button>
+    <text class="switch"> 投票开启 </text>
+    <switch checked="{{switch1Checked}}" bindchange="switch1Change"/>
     <button bindtap = "check_votes" type="primary" plain="true" size='mini'> 查看票型 </button>
-    <button bindtap = "refresh_all" type="primary" plain="true" size='mini'> 刷新界面 </button>
+    <button bindtap = "refresh_all" type="primary" plain="true" size='mini' disabled="{{is_locked}}"> 刷新界面 </button>
     </view>
 
   </view>

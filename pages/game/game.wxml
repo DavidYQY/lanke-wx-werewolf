@@ -41,7 +41,7 @@
 
     <view class="right">
     <button bindtap = "check_votes" type="primary" plain="true" size='mini'> 查看票型 </button>
-    <button bindtap = "refresh_all" type="primary" plain="true" size='mini'> 刷新界面 </button>
+    <button bindtap = "refresh_all" type="primary" plain="true" size='mini' disabled="{{is_locked}}"> 刷新界面 </button>
     </view>
 
   </view>
