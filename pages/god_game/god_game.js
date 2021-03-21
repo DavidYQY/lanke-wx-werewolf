@@ -227,7 +227,7 @@ Page({
           var role = arr[i]['identity']
           var image = arr[i]['image']
           if (role){
-            this.data.seat_pic_urls[seat_num - 1] = "https://www.lanke.fun/static/character_logo/" + role + ".png"
+            this.data.seat_pic_urls[seat_num - 1] = "https://werewolf-assistant.herokuapp.com/static/character_logo/" + role + ".png"
           }else if (image){
             this.data.seat_pic_urls[seat_num - 1] = image
           }
@@ -292,7 +292,7 @@ Page({
     this.shuffleArray(arr)
     for (var i = 0; i < arr.length; i++) {
       var role = arr[i]
-      this.data.seat_pic_urls[i] = "https://www.lanke.fun/static/character_logo/" + role + ".png"
+      this.data.seat_pic_urls[i] = "https://werewolf-assistant.herokuapp.com/static/character_logo/" + role + ".png"
     }
     this.setData({
       seat_pic_urls: this.data.seat_pic_urls

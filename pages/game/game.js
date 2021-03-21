@@ -43,6 +43,7 @@ Page({
         roomNum: this.data.room_id
       },
       complete: res => {
+      
         self.setData({
           period: res.result.data.current_period,
           is_locked: res.result.data.locked == "true"
@@ -144,6 +145,7 @@ Page({
       is_host: app.globalData.is_host
     })
     this.refresh_all()
+    console.log("islocked: " + this.data.is_locked)
 
   },
 
@@ -307,9 +309,10 @@ Page({
     //console.log('form发生了submit事件，携带数据为：', e.detail.value)
     var value = e.detail.value["input"]
     var int_value = parseInt(value)
-    if (int_value >12 | int_value < 1 | !int_value){
+    console.log(int_value)
+    if (int_value >12 | int_value < -1 | !int_value){
       wx.showToast({
-        title: '只允许输入1-12！',
+        title: '只允许输入1-12！（弃票请投-1）',
         icon: "warn",
         duration: 1000
       })
