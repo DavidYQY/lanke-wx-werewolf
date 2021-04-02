@@ -51,15 +51,25 @@ Page({
     })
   },
  
-  async bindGame() {
+  async bindGame(e) {
     this.data.roomNum = this.randomRoomNumber();
     var roomNum = this.data.roomNum;
+    var input = e.detail.value['input']
     let self = this
+    if (input != "华老板" && input != "华伋" && input != "huaji" && input != "Huaji" && input != "HuaJi"){
+      wx.showToast({
+        title: '社长姓名输入错误！',
+      })
+      return
+    }
     wx.showModal({
       title: '提示',
       content: '将要创建新房间' + roomNum + ', 覆盖已有数据，是否继续？',
       async success (res) {
         if (res.confirm) {
+          wx.showLoading({
+            title: '正在创建游戏',
+          })
           console.log('用户点击确定')
           const clear = await self.clear_original_db_cloud(roomNum);
           console.log(clear)
@@ -78,6 +88,7 @@ Page({
           })
           app.globalData.room_id = roomNum;
           app.globalData.is_host = true;
+          wx.hideLoading()
         } else if (res.cancel) {
           console.log('用户点击取消')
         }

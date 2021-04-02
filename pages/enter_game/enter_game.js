@@ -17,6 +17,9 @@ Page({
     app.globalData.room_id = this.data.room_id;
     let self = this
     app.globalData.is_back = true
+    wx.showLoading({
+      title: '正在进入游戏',
+    })    
 
     wx.cloud.callFunction({
       name: 'get_current_info',
@@ -44,6 +47,7 @@ Page({
                   url: '../game/game',
                 })
               }
+              wx.hideLoading()
           },
         })
       }

@@ -6,6 +6,7 @@
 
 .boardtype-select{
   background-color: #FFFFFF;
+  text-decoration-line: underline;
 }
 
 .button-sp-area{

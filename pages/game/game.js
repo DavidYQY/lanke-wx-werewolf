@@ -16,7 +16,13 @@ Page({
     seat_num: null,
     period: null,
     poll_result: "烂柯游艺社\n北美最专业的狼人杀社团\n本社于2019年3月创立于哈佛大学，最初在波士顿地区举行线下活动。 烂柯的名字出自南朝梁任昉《述异记》：晋代王质观战棋弈，流连忘返，以至于斧子柄都烂掉了。 我们取名于此，希望本社的活动也能让大家沉浸推理与表演之中，忘万千于一瞬。\n",
-    is_locked: false
+    is_locked: false,
+    toll_index: 0,
+    toll_all: ['弃票','1','2','3','4','5','6','7','8','9','10','11','12'],
+    period_all: ['当前','比赛前','警长竞选','第一天白天', '第二天白天', '第三天白天', '第四天白天', '第五天白天'],
+    period_index: 0,
+    src: null
+    //"https://werewolf-assistant.herokuapp.com/static/character_logo/狼人.png"
   },
 
   update_basic_info(){
@@ -43,7 +49,6 @@ Page({
         roomNum: this.data.room_id
       },
       complete: res => {
-      
         self.setData({
           period: res.result.data.current_period,
           is_locked: res.result.data.locked == "true"
@@ -55,35 +60,51 @@ Page({
   update_identity_info(){
     let self = this
     wx.cloud.callFunction({
-      name: 'get_player_info',
+      name: 'get_current_info',
       data: {
-        roomNum: this.data.room_id,
-        name: app.globalData.userInfo.nickName.toString()
+        roomNum: this.data.room_id
       },
       complete: res => {
-        try{
-          if (res.result.data.identity){
-            self.setData({
-              identity: res.result.data.identity
-            })
-          }else{
-            self.setData({
-              identity: "未分发"
-            })
-          }
-          self.setData({
-            seat_num: res.result.data.seat_num
-          })
-          if (this.data.seat_num != null){
-            self.setData({
-              seated: true
-            })
-          }
-        }catch (e){
-          console.log(e)
-        }
+        self.setData({
+          period: res.result.data.current_period,
+          is_locked: res.result.data.locked == "true"
+        })
+        console.log(self.data.is_locked)
+        wx.cloud.callFunction({
+          name: 'get_player_info',
+          data: {
+            roomNum: this.data.room_id,
+            name: app.globalData.userInfo.nickName.toString()
+          },
+          complete: res => {
+            try{
+              if (res.result.data.identity && self.data.is_locked){
+                self.setData({
+                  identity: res.result.data.identity,
+                  src: "https://werewolf-assistant.herokuapp.com/static/character_logo/" + res.result.data.identity+".png"
+                })
+              }else{
+                self.setData({
+                  identity: "未分发",
+                  src: "../../images/logo.png"
+                })
+              }
+              self.setData({
+                seat_num: res.result.data.seat_num
+              })
+              if (this.data.seat_num != null){
+                self.setData({
+                  seated: true
+                })
+              }
+            }catch (e){
+              console.log(e)
+            }
+          },
+        })
       },
     })
+
 
   },
 
@@ -145,7 +166,6 @@ Page({
       is_host: app.globalData.is_host
     })
     this.refresh_all()
-    console.log("islocked: " + this.data.is_locked)
 
   },
 
@@ -156,60 +176,92 @@ Page({
       duration: 1000
     })
     this.update_basic_info()
+    //this.update_period_info()
     this.update_identity_info()
     this.update_player_infos()
-    this.update_period_info()
   },
 
   update_votes(){
     let self = this
-    wx.cloud.callFunction({
-      name: 'get_current_info',
-      data: {
-        roomNum: this.data.room_id
-      },
-      complete: res => {
-        console.log(res)
-        self.setData({
-          period: res.result.data.current_period
-        })
-        this.data.period = res.result.data.current_period
-        var current_period = this.data.period
-        wx.cloud.callFunction({
-          name: 'get_votes',
-          data: {
-            roomNum: this.data.room_id,
-            period: current_period
-          },
-          complete: res => {
-            let arr = res.result.data
-            var votes_count = {}
-            for (var i = 0; i < arr.length; i++) {
-              var from = arr[i]['from']
-              var to = arr[i]['to']
-              if(!(to in votes_count)){
-                votes_count[to] = [from]
-              }else{
-                votes_count[to].push(from)
+    if (this.data.period_all[this.data.period_index] == '当前'){
+      wx.cloud.callFunction({
+        name: 'get_current_info',
+        data: {
+          roomNum: this.data.room_id
+        },
+        complete: res => {
+          console.log(res)
+          self.setData({
+            period: res.result.data.current_period
+          })
+          this.data.period = res.result.data.current_period
+          var current_period = this.data.period
+          wx.cloud.callFunction({
+            name: 'get_votes',
+            data: {
+              roomNum: this.data.room_id,
+              period: current_period
+            },
+            complete: res => {
+              let arr = res.result.data
+              var votes_count = {}
+              for (var i = 0; i < arr.length; i++) {
+                var from = arr[i]['from']
+                var to = arr[i]['to']
+                if(!(to in votes_count)){
+                  votes_count[to] = [from]
+                }else{
+                  votes_count[to].push(from)
+                }
               }
+              var sorted_votes = self.sort_poll(votes_count)
+              var poll_results = self.poll_to_text(sorted_votes)
+              poll_results = "当前阶段：" + current_period + "\n" + poll_results
+              self.setData({
+                poll_result: poll_results
+              })
+            },
+          })
+        },
+      })
+    }else{
+      var current_period = this.data.period_all[this.data.period_index]
+      wx.cloud.callFunction({
+        name: 'get_votes',
+        data: {
+          roomNum: this.data.room_id,
+          period: current_period
+        },
+        complete: res => {
+          let arr = res.result.data
+          var votes_count = {}
+          for (var i = 0; i < arr.length; i++) {
+            var from = arr[i]['from']
+            var to = arr[i]['to']
+            if(!(to in votes_count)){
+              votes_count[to] = [from]
+            }else{
+              votes_count[to].push(from)
             }
-            var sorted_votes = self.sort_poll(votes_count)
-            var poll_results = self.poll_to_text(sorted_votes)
-            poll_results = "当前阶段：" + current_period + "\n" + poll_results
-            self.setData({
-              poll_result: poll_results
-            })
-          },
-        })
-      },
-    })
+          }
+          var sorted_votes = self.sort_poll(votes_count)
+          var poll_results = self.poll_to_text(sorted_votes)
+          poll_results = "阶段：" + current_period + "\n" + poll_results
+          self.setData({
+            poll_result: poll_results
+          })
+        },
+      })
+    }
   },
 
   sort_poll: function(maxSpeed){
     //https://stackoverflow.com/questions/1069666/sorting-object-property-by-values
     var sortable = [];
     for (var vehicle in maxSpeed) {
-        maxSpeed[vehicle].sort()
+        maxSpeed[vehicle].sort(function(a, b){
+          return parseInt(a) - parseInt(b);
+        })
         sortable.push([vehicle, maxSpeed[vehicle], maxSpeed[vehicle].length]);
     }
     sortable.sort(function(a, b) {
@@ -229,7 +281,7 @@ Page({
         }
       }
       text += "\t=>\t"
-      text += array[i][0]
+      text += array[i][0] + "\t"
       text += "(" + array[i][2] + "票)"
       text += '\n'
     }
@@ -285,6 +337,7 @@ Page({
                   seat_pic_urls: self.data.seat_pic_urls
                 })
                 self.add_player_info(app.globalData.userInfo.nickName, idx + 1, null, app.globalData.userInfo.avatarUrl)
+
               }
             }
           })
@@ -307,17 +360,18 @@ Page({
 
   formSubmit(e){
     //console.log('form发生了submit事件，携带数据为：', e.detail.value)
-    var value = e.detail.value["input"]
+    var value = this.data.toll_all[this.data.toll_index]
+    /*
     var int_value = parseInt(value)
     console.log(int_value)
-    if (int_value >12 | int_value < -1 | !int_value){
+    if (int_value >12 || int_value < -1 || !int_value){
       wx.showToast({
         title: '只允许输入1-12！（弃票请投-1）',
         icon: "warn",
         duration: 1000
       })
       return
-    }
+    }*/
     let self = this
     if (this.data.seat_num == null){
       wx.showToast({
@@ -371,6 +425,20 @@ Page({
           })
         }
       }
+    })
+  },
+
+  bindPickerChange: function (e) {
+    console.log('picker发送选择改变，携带值为', e.detail.value)
+    this.setData({
+      toll_index: e.detail.value
+    })
+  },
+
+  bindPickerChange2: function (e) {
+    console.log('picker发送选择改变，携带值为', e.detail.value)
+    this.setData({
+      period_index: e.detail.value
     })
   },
 

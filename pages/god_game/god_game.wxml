@@ -8,10 +8,10 @@
       <text class="role-text">你的身份为：上帝</text>
     </view>
     <picker bindchange="bindPickerChange" value="{{index}}" disabled="{{is_locked}}" range="{{board_all}}">
-    <text class="boardtype-select">当前板子为：{{board_all[index]}}（可选）</text>
+    <text>当前板子为：</text> <text class="boardtype-select">{{board_all[index]}}</text>
     </picker>
     <picker bindchange="bindPickerChange2" value="{{period_index}}" range="{{period_all}}">
-    <text class="boardtype-select">当前阶段为：{{period_all[period_index]}}（可选）</text>
+    <text>当前阶段为：</text><text class="boardtype-select">{{period_all[period_index]}}</text>
     </picker>
   </view>
 

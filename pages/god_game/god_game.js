@@ -11,7 +11,7 @@ Page({
     seats: [],
     seat_names: [],
     seat_pic_urls: [],
-    board_all: ['预女猎白', '预女猎白混', '幽灵vs预女猎守', '先女猎白混'],
+    board_all: ['预女猎白', '预女猎白混', '石像鬼vs预女猎墓', '幽灵vs预女猎守', '先女猎白混', '梦魇vs预女猎守', '恶魔vs预女猎守','恶灵骑士vs预女猎守','机械狼vs预女猎守','隐狼vs预女猎鸦','大灰狼vs预女猎占'],
     role_details: [
       {
         "村民": 4, 
@@ -36,6 +36,15 @@ Page({
         "预言家": 1, 
         "女巫": 1, 
         "猎人": 1, 
+        "守墓人": 1,
+        "石像鬼": 1
+      },
+      {
+        "村民": 4, 
+        "狼人": 3, 
+        "预言家": 1, 
+        "女巫": 1, 
+        "猎人": 1, 
         "守卫": 1,
         "鬼狼": 1
       },
@@ -48,6 +57,61 @@ Page({
         "白痴": 1,
         "混血儿": 1
       },
+      {
+        "村民": 4, 
+        "狼人": 3, 
+        "预言家": 1, 
+        "女巫": 1, 
+        "猎人": 1, 
+        "守卫": 1,
+        "梦魇": 1
+      },
+      {
+        "村民": 4, 
+        "狼人": 3, 
+        "预言家": 1, 
+        "女巫": 1, 
+        "猎人": 1, 
+        "守卫": 1,
+        "恶魔": 1
+      },
+      {
+        "村民": 4, 
+        "狼人": 3, 
+        "预言家": 1, 
+        "女巫": 1, 
+        "猎人": 1, 
+        "守卫": 1,
+        "恶灵骑士": 1
+      },
+      {
+        "村民": 4, 
+        "狼人": 3, 
+        "预言家": 1, 
+        "女巫": 1, 
+        "猎人": 1, 
+        "守卫": 1,
+        "机械狼": 1
+      },
+      {
+        "村民": 4, 
+        "狼人": 3, 
+        "预言家": 1, 
+        "女巫": 1, 
+        "猎人": 1, 
+        "乌鸦": 1,
+        "隐狼": 1
+      },
+      {
+        "村民": 4, 
+        "狼人": 3, 
+        "预言家": 1, 
+        "女巫": 1, 
+        "猎人": 1, 
+        "占卜师": 1,
+        "大灰狼": 1
+      },
+
     ],
     seat_pic_urls: [],
     index: 0,
@@ -57,6 +121,7 @@ Page({
     poll_all: ['比赛前','警长竞选','第一天白天', '第二天白天', '第三天白天', '第四天白天', '第五天白天'],
     poll_result: "烂柯游艺社\n北美最专业的狼人杀社团\n本社于2019年3月创立于哈佛大学，最初在波士顿地区举行线下活动。 烂柯的名字出自南朝梁任昉《述异记》：晋代王质观战棋弈，流连忘返，以至于斧子柄都烂掉了。 我们取名于此，希望本社的活动也能让大家沉浸推理与表演之中，忘万千于一瞬。\n",
     switch1Checked: true,
+    current_roles: []
   },
   get_board_type (room_id){
     const db = wx.cloud.database();
@@ -283,7 +348,7 @@ Page({
 
   
 
-  async distributeRoles() {
+  distributeRoles() {
     var roles = this.data.role_details[this.data.index]
     var arr = []
     for (var key of Object.keys(roles)){
@@ -297,20 +362,7 @@ Page({
     this.setData({
       seat_pic_urls: this.data.seat_pic_urls
     })
-    var funcs = []
-    //var temp_names = ['尹秋阳','胡雨章','chen','xiaohe','华老板','周广宇','test']
-    var temp_names = this.data.seat_names
-    for (var i = 0; i < temp_names.length; i++){
-      if (temp_names[i]){
-        //funcs.push(this.add_role_info_cloud(this.data.room_id, 
-        //  temp_names[i], i + 1, arr[i].toString()), this.data.seat_pic_urls[i])
-        console.log(temp_names[i] + arr[i])
-        funcs.push(this.update_role_info(temp_names[i], arr[i].toString()))
-      }
-    }
-    for (var i = 0; i < funcs.length; i++){
-      console.log(await funcs[i])
-    }
+    this.data.current_roles = arr
     
   },
 
@@ -346,7 +398,9 @@ Page({
     //https://stackoverflow.com/questions/1069666/sorting-object-property-by-values
     var sortable = [];
     for (var vehicle in maxSpeed) {
-        maxSpeed[vehicle].sort()
+        maxSpeed[vehicle].sort(function(a, b){
+          return parseInt(a) - parseInt(b);
+        })
         sortable.push([vehicle, maxSpeed[vehicle], maxSpeed[vehicle].length]);
     }
     sortable.sort(function(a, b) {
@@ -373,16 +427,34 @@ Page({
     return text
   },
 
+  async upload_roles(arr){
+    var funcs = []
+    //var temp_names = ['尹秋阳','胡雨章','chen','xiaohe','华老板','周广宇','test']
+    var temp_names = this.data.seat_names
+    for (var i = 0; i < temp_names.length; i++){
+      if (temp_names[i]){
+        //funcs.push(this.add_role_info_cloud(this.data.room_id, 
+        //  temp_names[i], i + 1, arr[i].toString()), this.data.seat_pic_urls[i])
+        console.log(temp_names[i] + arr[i])
+        funcs.push(this.update_role_info(temp_names[i], arr[i].toString()))
+      }
+    }
+    for (var i = 0; i < funcs.length; i++){
+      console.log(await funcs[i])
+    }
+  },
   lockRoles(){
-    this.data.is_locked = true
     this.setData({
       is_locked: true
-    }
-    )
+    })
+    this.upload_roles(this.data.current_roles)
     this.update_current_info()
   },
 
   check_votes(){
+    wx.showToast({
+      title: '查看票型成功！',
+    })
     this.update_votes()
   },
 

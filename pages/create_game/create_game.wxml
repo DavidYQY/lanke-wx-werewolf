@@ -7,10 +7,17 @@
     <text class="dev-note-text">
       当前本程序仅支持12人局投票功能
       其余功能陆续加入中
+      本程序仅供烂柯游艺社相关活动使用
     </text>
   </view>
+  <form catchsubmit="bindGame">
   <view class="game-config-view">
     <text class="game-info-text">游戏人数: 12人</text>
-    <button bindtap="bindGame">完成设置</button>
+    <view class="weui-cell__bd" style="margin: 30rpx 0" >
+    <text class="game-info-text">烂柯游艺社社长名字为（昵称/拼音皆可）：</text>
+    <input class="weui-input" name="input" placeholder="这是一个输入框" />
+    </view>
+    <button form-type="submit">完成设置</button>
   </view>
+  </form>
 </view>

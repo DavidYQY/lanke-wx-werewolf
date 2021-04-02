@@ -13,6 +13,7 @@
     <view class="role-view">
       <text class="role-text">你的身份为：{{identity}}</text>
     </view>
+    <image src="{{src}}" class="role-image"></image>
     <view class="role-view">
       <text class="period-text">当前阶段为：{{period}}</text>
     </view>
@@ -40,8 +41,13 @@
     </view>
 
     <view class="right">
+    <picker bindchange="bindPickerChange2" value="{{period_index}}" range="{{period_all}}">
+    <text>查看票型阶段：</text> <text class="toll-select">{{period_all[period_index]}}</text>
+    </picker>
+    <view class="mini-button" >
     <button bindtap = "check_votes" type="primary" plain="true" size='mini'> 查看票型 </button>
     <button bindtap = "refresh_all" type="primary" plain="true" size='mini' disabled="{{is_locked}}"> 刷新界面 </button>
+    </view>
     </view>
 
   </view>
@@ -50,8 +56,9 @@
   <form catchsubmit="formSubmit">
     <view class="form-area">
         <view class='form-left'>
-          <text class='poll-text'>投票给：</text>
-          <input name="input" placeholder="12"/>
+          <picker bindchange="bindPickerChange" value="{{toll_index}}" range="{{toll_all}}">
+          <text>投票给：</text> <text class="toll-select">{{toll_all[toll_index]}}</text>
+          </picker>
         </view>
         <view class='form-right'>
           <button type="primary" size='mini' formType="submit">提交投票</button>

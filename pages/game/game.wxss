@@ -30,13 +30,22 @@
 }
 
 .form-left{
+  width: 50%;
+  flex-direction: column;
+  display: flex;
+  margin:2px;
 }
 
 .form-right{
+  width: 50%;
+  flex-direction: column;
+  display: flex;
+  margin:2px;
 }
 
 .form-body{
   padding-top: 40rpx;
+  width: 80%;
 }
 
 .button-sp-area{
@@ -49,14 +58,16 @@
   width: 70%;
   flex-direction: column;
   display: flex;
-  margin:2px;
+  margin: 2px;
+  padding: 5rpx;
 }
 
 .right {
   width: 30%;
   flex-direction: column;
   display: flex;
-  margin:2px;
+  margin: 2px;
+  padding: 5rpx;
 }
 
 .poll-res{
@@ -71,4 +82,17 @@
 
 .role-text{
   border: 2px solid #000000
+}
+
+.toll-select{
+  text-decoration: underline
+}
+
+.role-image{
+  width: 200rpx;
+  height: 200rpx;
+}
+
+.mini-button{
+  padding-top: 10rpx;
 }
