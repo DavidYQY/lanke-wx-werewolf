@@ -289,12 +289,37 @@ Page({
   },
 
   check_votes(){
-    wx.showToast({
-      title: '查看票型成功！',
-      icon: 'success',
-      duration: 1000
+    let self = this
+    wx.cloud.callFunction({
+      name: 'get_current_info',
+      data: {
+        roomNum: this.data.room_id
+      },
+      complete: res => {
+        self.setData({
+          period: res.result.data.current_period,
+          is_locked: res.result.data.locked == "true"
+        })
+        var enabled = res.result.data.vote_enabled
+        if (enabled){
+          wx.showToast({
+            title: '正在投票过程中，不得查看！',
+            icon: 'none',
+            duration: 1000
+          })
+          return
+        }else{
+          wx.showToast({
+            title: '查看票型成功！',
+            icon: 'success',
+            duration: 1000
+          })
+          this.update_votes()
+        }
+      },
     })
-    this.update_votes()
+
+
   },
 
   sit_down(e){
