@@ -81,7 +81,7 @@ Page({
               if (res.result.data.identity && self.data.is_locked){
                 self.setData({
                   identity: res.result.data.identity,
-                  src: "https://werewolf-assistant.herokuapp.com/static/character_logo/" + res.result.data.identity+".png"
+                  src: "https://raw.githubusercontent.com/Ji-Hua/werewolf_assistant/master/app/static/character_logo/" + res.result.data.identity+".png"
                 })
               }else{
                 self.setData({

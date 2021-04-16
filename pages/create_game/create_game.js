@@ -56,12 +56,15 @@ Page({
     var roomNum = this.data.roomNum;
     var input = e.detail.value['input']
     let self = this
+    /* 
     if (input != "华老板" && input != "华伋" && input != "huaji" && input != "Huaji" && input != "HuaJi"){
       wx.showToast({
         title: '社长姓名输入错误！',
       })
       return
     }
+    */
+
     wx.showModal({
       title: '提示',
       content: '将要创建新房间' + roomNum + ', 覆盖已有数据，是否继续？',

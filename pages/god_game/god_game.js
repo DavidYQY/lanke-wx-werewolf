@@ -11,7 +11,7 @@ Page({
     seats: [],
     seat_names: [],
     seat_pic_urls: [],
-    board_all: ['预女猎白', '预女猎白混', '石像鬼vs预女猎墓', '幽灵vs预女猎守', '先女猎白混', '梦魇vs预女猎守', '恶魔vs预女猎守','恶灵骑士vs预女猎守','机械狼vs预女猎守','隐狼vs预女猎鸦','大灰狼vs预女猎占'],
+    board_all: ['预女猎白', '预女猎白混', '石像鬼vs预女猎墓', '幽灵vs预女猎守', '先女猎白混', '梦魇vs预女猎守', '恶魔vs预女猎守','恶灵骑士vs预女猎守','机械狼vs预女猎守','隐狼vs预女猎鸦','大灰狼vs预女猎占','预女猎孩','预女猎守野', '黑狼王vs预女猎魔', '白狼王vs预女守骑', '咒狐'],
     role_details: [
       {
         "村民": 4, 
@@ -110,6 +110,50 @@ Page({
         "猎人": 1, 
         "占卜师": 1,
         "大灰狼": 1
+      },
+      {
+        "村民": 4, 
+        "狼人": 4, 
+        "预言家": 1, 
+        "女巫": 1, 
+        "猎人": 1, 
+        "小女孩": 1
+      },
+      {
+        "村民": 3, 
+        "狼人": 4, 
+        "预言家": 1, 
+        "女巫": 1, 
+        "猎人": 1, 
+        "守卫": 1,
+        "野孩子": 1
+      },
+      {
+        "村民": 4, 
+        "狼人": 3, 
+        "预言家": 1, 
+        "女巫": 1, 
+        "猎人": 1, 
+        "魔术师": 1,
+        "黑狼王": 1
+      },
+      {
+        "村民": 4, 
+        "狼人": 3, 
+        "预言家": 1, 
+        "女巫": 1, 
+        "守卫": 1, 
+        "骑士": 1,
+        "白狼王": 1
+      },
+      {
+        "村民": 3, 
+        "狼人": 4, 
+        "预言家": 1, 
+        "女巫": 1, 
+        "猎人": 1, 
+        "守卫": 1,
+        "咒狐": 1
       },
 
     ],
@@ -292,7 +336,7 @@ Page({
           var role = arr[i]['identity']
           var image = arr[i]['image']
           if (role){
-            this.data.seat_pic_urls[seat_num - 1] = "https://werewolf-assistant.herokuapp.com/static/character_logo/" + role + ".png"
+            this.data.seat_pic_urls[seat_num - 1] = "https://raw.githubusercontent.com/Ji-Hua/werewolf_assistant/master/app/static/character_logo/" + role + ".png"
           }else if (image){
             this.data.seat_pic_urls[seat_num - 1] = image
           }
@@ -357,7 +401,7 @@ Page({
     this.shuffleArray(arr)
     for (var i = 0; i < arr.length; i++) {
       var role = arr[i]
-      this.data.seat_pic_urls[i] = "https://werewolf-assistant.herokuapp.com/static/character_logo/" + role + ".png"
+      this.data.seat_pic_urls[i] = "https://raw.githubusercontent.com/Ji-Hua/werewolf_assistant/master/app/static/character_logo//" + role + ".png"
     }
     this.setData({
       seat_pic_urls: this.data.seat_pic_urls

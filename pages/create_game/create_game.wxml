@@ -13,10 +13,13 @@
   <form catchsubmit="bindGame">
   <view class="game-config-view">
     <text class="game-info-text">游戏人数: 12人</text>
+    <!--
     <view class="weui-cell__bd" style="margin: 30rpx 0" >
     <text class="game-info-text">烂柯游艺社社长名字为（昵称/拼音皆可）：</text>
     <input class="weui-input" name="input" placeholder="这是一个输入框" />
     </view>
+    -->
+
     <button form-type="submit">完成设置</button>
   </view>
   </form>
